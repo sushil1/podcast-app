@@ -1,7 +1,6 @@
 var express = require('express')
 var router = express.Router()
 var superagent = require('superagent')
-
 var xml2js = require('xml2js')
 
 
@@ -24,11 +23,15 @@ router.get('/', function(req, res, next){
         if(err){
           res.json({
             confirmation:'fail',
-            message: err +''
+            message: err
           })
           return
         }
         var xml = response.text
+        if(xml == null){
+          console.log('TEST 1: response is null from the feed ')
+          return
+        }
         xml2js.parseString(xml, function(err, result){
           var rss = result.rss
           var channel = rss.channel
