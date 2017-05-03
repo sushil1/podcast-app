@@ -1,10 +1,11 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import actions from '../../actions'
+import {TextUtils} from '../../utils'
 
 
 class Podcasts extends Component{
-  
+
 
   selectPodcast(podcast, event){
     //console.log('selectPodcast: '+JSON.stringify(podcast))
@@ -22,8 +23,9 @@ class Podcasts extends Component{
               <img src={podcast.artworkUrl600} alt=""/>
               <div className="opacity-overlay valign-wrapper">
                 <div className="valign center width-100">
-                  <h4 className="white-text">{podcast.artistName}</h4>
-                  <p className="white-text">{podcast.collectionName}</p>
+                <h4 style={{fontSize:18}} className="white-text">{TextUtils.truncateText(podcast.artistName, 14)}</h4>
+                  <p style={{fontSize:12}} className="white-text">{TextUtils.truncateText(podcast.collectionName, 28)}</p>
+
                 </div>
               </div>
             </a>

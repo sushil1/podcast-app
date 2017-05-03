@@ -10611,7 +10611,7 @@ _reactDom2.default.render(app, document.getElementById('root'));
 
 
 Object.defineProperty(exports, "__esModule", {
-  value: true
+	value: true
 });
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -10643,177 +10643,177 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var Playlist = function (_Component) {
-  _inherits(Playlist, _Component);
+	_inherits(Playlist, _Component);
 
-  function Playlist() {
-    _classCallCheck(this, Playlist);
+	function Playlist() {
+		_classCallCheck(this, Playlist);
 
-    var _this = _possibleConstructorReturn(this, (Playlist.__proto__ || Object.getPrototypeOf(Playlist)).call(this));
+		var _this = _possibleConstructorReturn(this, (Playlist.__proto__ || Object.getPrototypeOf(Playlist)).call(this));
 
-    _this.state = {
-      //trackList: null,
-      player: null
-    };
-    return _this;
-  }
+		_this.state = {
+			//			trackList: null,
+			player: null
+		};
+		return _this;
+	}
 
-  _createClass(Playlist, [{
-    key: 'componentDidMount',
-    value: function componentDidMount() {}
-  }, {
-    key: 'initializePlayer',
-    value: function initializePlayer(list) {
-      var sublist = [];
-      if (list.length > 3) {
-        for (var i = 0; i < 3; i++) {
-          sublist.push(list[i]);
-        }
-      } else {
-        sublist = Object.assign([], list);
-      }
+	_createClass(Playlist, [{
+		key: 'componentDidMount',
+		value: function componentDidMount() {}
+	}, {
+		key: 'initializePlayer',
+		value: function initializePlayer(list) {
+			var sublist = [];
+			if (list.length > 3) {
+				// limit list size to 3
+				for (var i = 0; i < 3; i++) {
+					sublist.push(list[i]);
+				}
+			} else {
+				sublist = Object.assign([], list);
+			}
 
-      var ap1 = new _aplayer2.default({
-        element: document.getElementById('player1'),
-        narrow: false,
-        autoplay: true,
-        showlrc: false,
-        mutex: true,
-        theme: '#e6d0b2',
-        preload: 'metadata',
-        mode: 'circulation',
-        music: sublist
-      });
-      // ap1.on('play', function () {
-      //     console.log('play');
-      // });
-      // ap1.on('play', function () {
-      //     console.log('play play');
-      // });
-      // ap1.on('pause', function () {
-      //     console.log('pause');
-      // });
-      // ap1.on('canplay', function () {
-      //     console.log('canplay');
-      // });
-      // ap1.on('playing', function () {
-      //     console.log('playing');
-      // });
-      // ap1.on('ended', function () {
-      //     console.log('ended');
-      // });
-      // ap1.on('error', function () {
-      //     console.log('error');
-      // })
+			var ap1 = new _aplayer2.default({
+				element: document.getElementById('player1'),
+				narrow: false,
+				autoplay: true,
+				showlrc: false,
+				mutex: true,
+				theme: '#e6d0b2',
+				preload: 'metadata',
+				mode: 'circulation',
+				music: sublist
+			});
 
-      this.setState({
-        //trackList: sublist,
-        player: ap1
-      });
-    }
-  }, {
-    key: 'searchPodcasts',
-    value: function searchPodcasts(event) {
-      var _this2 = this;
+			// ap1.on('play', function () {
+			//     console.log('play');
+			// });
+			// ap1.on('play', function () {
+			//     console.log('play play');
+			// });
+			// ap1.on('pause', function () {
+			//     console.log('pause');
+			// });
+			// ap1.on('canplay', function () {
+			//     console.log('canplay');
+			// });
+			// ap1.on('playing', function () {
+			//     console.log('playing');
+			// });
+			// ap1.on('ended', function () {
+			//     console.log('ended');
+			// });
+			// ap1.on('error', function () {
+			//     console.log('error');
+			// });
 
-      if (event.keyCode != 13) return;
+			this.setState({
+				//        	trackList: list,
+				player: ap1
+			});
+		}
+	}, {
+		key: 'searchPodcasts',
+		value: function searchPodcasts(event) {
+			var _this2 = this;
 
-      console.log('searchPodcasts: ' + event.target.value);
-      var searchItem = event.target.value;
-      var endpoint = '/search/' + event.target.value;
+			if (event.keyCode != 13) return;
 
-      _utils.APIClient.get(endpoint, null).then(function (response) {
-        //  console.log('list:: '+JSON.stringify(response))
-        _this2.props.podcastsReceived(response.results);
-      }).catch(function (err) {
-        console.log(err + "");
-      });
-    }
-  }, {
-    key: 'componentDidUpdate',
-    value: function componentDidUpdate() {
-      var _this3 = this;
+			//console.log('searchPodcasts: '+event.target.value)
+			var endpoint = '/search/' + event.target.value;
 
-      //console.log('componentDidUpdate: '+JSON.stringify(this.props.podcasts.selected))
-      if (this.props.podcasts.selected == null) return;
-      //grab the feed url, then make a request for rss feed
-      var feedUrl = this.props.podcasts.selected['feedUrl'];
-      if (feedUrl == null) return;
+			_utils.APIClient.get(endpoint, null).then(function (response) {
+				//			console.log(JSON.stringify(response))
+				_this2.props.podcastsReceived(response.results);
+			}).catch(function (err) {
+				console.log('ERROR: ' + JSON.stringify(response));
+			});
+		}
+	}, {
+		key: 'componentDidUpdate',
+		value: function componentDidUpdate() {
+			var _this3 = this;
 
-      if (this.props.podcasts.trackList != null) {
-        //tracks are already loaded
-        if (this.state.player == null) this.initializePlayer(this.props.podcasts.trackList);
-        return;
-      }
+			//console.log('componentDidUpdate: '+JSON.stringify(this.props.podcasts.selected))
+			if (this.props.podcasts.selected == null) return;
 
-      //reset the player
-      if (this.state.player != null) {
-        this.state.player.pause();
-        this.setState({
-          player: null
-        });
-      }
+			// grab the feed url, then make request for rss feed
+			var feedUrl = this.props.podcasts.selected['feedUrl'];
+			if (feedUrl == null) return;
 
-      _utils.APIClient.get('/feed', { url: feedUrl }).then(function (response) {
-        var podcast = response.podcast;
-        var item = podcast.item;
-        var list = [];
-        item.forEach(function (track, i) {
-          //console.log('track: '+JSON.stringify(track))
-          var trackInfo = {};
-          trackInfo['title'] = track.title[0];
-          trackInfo['author'] = _this3.props.podcasts.selected.collectionName;
-          trackInfo['pic'] = _this3.props.podcasts.selected['artworkUrl600'];
-          var enclosure = track.enclosure[0]['$'];
-          trackInfo['url'] = enclosure['url'];
-          list.push(trackInfo);
-        });
-        _this3.props.trackListReady(list);
-        //console.log(JSON.stringify(list))
-        // if(this.state.player == null){
-        //   this.initializePlayer(list)
-        // }
-      }).catch(function (err) {
-        console.log('ERROR: ' + err.message);
-      });
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(
-          'div',
-          { style: { paddingTop: 64 }, className: 'hero-header bg-shop animated fadeindown' },
-          _react2.default.createElement(
-            'div',
-            { className: 'p-20 animated fadeinup delay-1' },
-            _react2.default.createElement('div', { style: { background: '#fff' }, id: 'player1', className: 'aplayer' })
-          )
-        ),
-        _react2.default.createElement(_presentation.Search, { onSearch: this.searchPodcasts.bind(this) })
-      );
-    }
-  }]);
+			if (this.props.podcasts.trackList != null) {
+				// tracks are already loaded
+				if (this.state.player == null) this.initializePlayer(this.props.podcasts.trackList);
+				return;
+			}
 
-  return Playlist;
+			// RESET THE PLAYER:
+			if (this.state.player != null) {
+				this.state.player.pause();
+				this.setState({
+					player: null
+				});
+			}
+
+			_utils.APIClient.get('/feed', { url: feedUrl }).then(function (response) {
+				var podcast = response.podcast;
+				var item = podcast.item;
+
+				var list = [];
+				item.forEach(function (track, i) {
+					var trackInfo = {};
+					trackInfo['title'] = track.title[0];
+					trackInfo['author'] = _this3.props.podcasts.selected.collectionName;
+					trackInfo['pic'] = _this3.props.podcasts.selected['artworkUrl600'];
+
+					var enclosure = track.enclosure[0]['$'];
+					trackInfo['url'] = enclosure['url'];
+					list.push(trackInfo);
+				});
+
+				_this3.props.trackListReady(list);
+			}).catch(function (err) {
+				console.log('ERROR: ' + err.message);
+			});
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			return _react2.default.createElement(
+				'div',
+				null,
+				_react2.default.createElement(
+					'div',
+					{ style: { paddingTop: 64 }, className: 'hero-header bg-shop animated fadeindown' },
+					_react2.default.createElement(
+						'div',
+						{ className: 'p-20 animated fadeinup delay-1' },
+						_react2.default.createElement('div', { style: { background: '#fff' }, id: 'player1', className: 'aplayer' })
+					)
+				),
+				_react2.default.createElement(_presentation.Search, { onSearch: this.searchPodcasts.bind(this) })
+			);
+		}
+	}]);
+
+	return Playlist;
 }(_react.Component);
 
 var stateToProps = function stateToProps(state) {
-  return {
-    podcasts: state.podcast
-  };
+	return {
+		podcasts: state.podcast
+	};
 };
 
 var dispatchToProps = function dispatchToProps(dispatch) {
-  return {
-    podcastsReceived: function podcastsReceived(podcasts) {
-      return dispatch(_actions2.default.podcastsReceived(podcasts));
-    },
-    trackListReady: function trackListReady(list) {
-      return dispatch(_actions2.default.trackListReady(list));
-    }
-  };
+	return {
+		podcastsReceived: function podcastsReceived(podcasts) {
+			return dispatch(_actions2.default.podcastsReceived(podcasts));
+		},
+		trackListReady: function trackListReady(list) {
+			return dispatch(_actions2.default.trackListReady(list));
+		}
+	};
 };
 
 exports.default = (0, _reactRedux.connect)(stateToProps, dispatchToProps)(Playlist);

@@ -19,15 +19,18 @@ router.get('/', function(req, res, next){
     superagent
       .get(url)
       .query(null)
+      .accept('application/json')
       .end(function(err, response){
-        if(err){
+        if(err || !response.ok){
           res.json({
             confirmation:'fail',
             message: err
           })
           return
         }
+
         var xml = response.text
+        //console.log('response '+JSON.stringify(response))
         if(xml == null){
           console.log('TEST 1: response is null from the feed ')
           return
