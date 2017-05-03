@@ -11064,7 +11064,7 @@ exports.default = function (props) {
 
   return _react2.default.createElement(
     "footer",
-    { className: "page-footer primary-color" },
+    { className: "page-footer grey" },
     _react2.default.createElement(
       "div",
       { className: "container" },
@@ -11075,17 +11075,11 @@ exports.default = function (props) {
           "div",
           { className: "col s12" },
           _react2.default.createElement(
-            "p",
-            { className: "center-align grey-text text-lighten-4" },
-            "You can use rows and columns here to organize your footer content."
-          ),
-          _react2.default.createElement(
             "div",
             { className: "center-align" },
             _react2.default.createElement("i", { className: "ion-social-facebook m-10 white-text" }),
             _react2.default.createElement("i", { className: "ion-social-twitter m-10 white-text" }),
-            _react2.default.createElement("i", { className: "ion-social-pinterest m-10 white-text" }),
-            _react2.default.createElement("i", { className: "ion-social-dribbble m-10 white-text" })
+            _react2.default.createElement("i", { className: "ion-social-github m-10 white-text" })
           )
         )
       )
@@ -11097,7 +11091,7 @@ exports.default = function (props) {
       _react2.default.createElement(
         "div",
         { className: "container" },
-        "2016 Codnauts",
+        "2017 podcast-app",
         _react2.default.createElement(
           "a",
           { className: "grey-text text-lighten-4 right", href: "#!" },
