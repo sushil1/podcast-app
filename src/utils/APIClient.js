@@ -1,5 +1,5 @@
 import superagent from 'superagent'
-import bluebird from 'bluebird'
+import Promise from 'bluebird'
 
 module.exports = {
 
