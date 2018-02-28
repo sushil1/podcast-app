@@ -10661,6 +10661,8 @@ var _aplayer2 = _interopRequireDefault(_aplayer);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
@@ -10683,9 +10685,6 @@ var Playlist = function (_Component) {
 	}
 
 	_createClass(Playlist, [{
-		key: 'componentDidMount',
-		value: function componentDidMount() {}
-	}, {
 		key: 'initializePlayer',
 		value: function initializePlayer(list) {
 			var sublist = [];
@@ -10755,9 +10754,22 @@ var Playlist = function (_Component) {
 			});
 		}
 	}, {
+		key: 'getPodcasts',
+		value: function getPodcasts(query) {
+			var _this3 = this;
+
+			var endpoint = '/search/' + query;
+
+			_utils.APIClient.get(endpoint, null).then(function (response) {
+				_this3.props.podcastsReceived(response.results);
+			}).catch(function (err) {
+				console.log('ERROR: ' + JSON.stringify(response));
+			});
+		}
+	}, {
 		key: 'componentDidUpdate',
 		value: function componentDidUpdate() {
-			var _this3 = this;
+			var _this4 = this;
 
 			//console.log('componentDidUpdate: '+JSON.stringify(this.props.podcasts.selected))
 			if (this.props.podcasts.selected == null) return;
@@ -10788,15 +10800,15 @@ var Playlist = function (_Component) {
 				item.forEach(function (track, i) {
 					var trackInfo = {};
 					trackInfo['title'] = track.title[0];
-					trackInfo['author'] = _this3.props.podcasts.selected.collectionName;
-					trackInfo['pic'] = _this3.props.podcasts.selected['artworkUrl600'];
+					trackInfo['author'] = _this4.props.podcasts.selected.collectionName;
+					trackInfo['pic'] = _this4.props.podcasts.selected['artworkUrl600'];
 
 					var enclosure = track.enclosure[0]['$'];
 					trackInfo['url'] = enclosure['url'];
 					list.push(trackInfo);
 				});
 
-				_this3.props.trackListReady(list);
+				_this4.props.trackListReady(list);
 			}).catch(function (err) {
 				console.log('ERROR: ' + err.message);
 			});
@@ -10804,16 +10816,34 @@ var Playlist = function (_Component) {
 	}, {
 		key: 'render',
 		value: function render() {
+			var _React$createElement;
+
 			return _react2.default.createElement(
 				'div',
 				null,
 				_react2.default.createElement(
 					'div',
-					{ style: { paddingTop: 64 }, className: 'hero-header bg-shop animated fadeindown' },
+					(_React$createElement = { style: { paddingTop: 64 } }, _defineProperty(_React$createElement, 'style', { backgroundColor: 'teal',
+						backgroundSize: 'cover',
+						boxShadow: ' 0px 0px 1px 0px rgba(0, 0, 0,.7)'
+
+					}), _defineProperty(_React$createElement, 'className', 'animated fadeindown hero-header'), _React$createElement),
+					this.state.player === null && _react2.default.createElement(
+						'h3',
+						{ style: {
+								fontSize: '20px',
+								textAlign: 'center',
+								paddingTop: '50px',
+								fontWeight: 'bold'
+							} },
+						'Search your favourite podcasts.',
+						_react2.default.createElement('br', null),
+						'Loading from itunes'
+					),
 					_react2.default.createElement(
 						'div',
 						{ className: 'p-20 animated fadeinup delay-1' },
-						_react2.default.createElement('div', { style: { background: '#fff' }, id: 'player1', className: 'aplayer' })
+						_react2.default.createElement('div', { style: { background: '#fff', margin: '5%' }, id: 'player1', className: 'aplayer' })
 					)
 				),
 				_react2.default.createElement(_presentation.Search, { onSearch: this.searchPodcasts.bind(this) })
@@ -11023,7 +11053,8 @@ var Featured = function (_Component) {
         { id: 'main' },
         _react2.default.createElement(
           'div',
-          { id: 'content', className: 'main animated fadein' },
+          { id: 'content',
+            className: 'main animated fadein' },
           _react2.default.createElement(_containers.Playlist, null),
           _react2.default.createElement(
             'div',
@@ -11031,9 +11062,9 @@ var Featured = function (_Component) {
             _react2.default.createElement(_containers.Podcasts, null),
             _react2.default.createElement('div', { className: 'clr' })
           ),
+          _react2.default.createElement('div', { style: { height: '40vh' } }),
           _react2.default.createElement(_presentation.Footer, null)
-        ),
-        _react2.default.createElement(_presentation.Nav, null)
+        )
       );
     }
   }]);
@@ -11119,7 +11150,9 @@ var _react2 = _interopRequireDefault(_react);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-exports.default = function (props) {
+exports.default = function (_ref) {
+  var getPodcasts = _ref.getPodcasts;
+
 
   return _react2.default.createElement(
     "div",
@@ -11138,7 +11171,7 @@ exports.default = function (props) {
     ),
     _react2.default.createElement(
       "nav",
-      { id: "menu", className: "menu" },
+      { id: "sidebar", className: "menu" },
       _react2.default.createElement(
         "div",
         { className: "menu-navigation" },
@@ -11150,8 +11183,10 @@ exports.default = function (props) {
             null,
             _react2.default.createElement(
               "a",
-              { href: "shop.html", className: "no-child" },
-              "Shop"
+              { onClick: function onClick() {
+                  return searchPodcasts('music');
+                }, className: "no-child" },
+              "Music"
             )
           ),
           _react2.default.createElement(
@@ -11160,7 +11195,7 @@ exports.default = function (props) {
             _react2.default.createElement(
               "a",
               { href: "news.html", className: "no-child" },
-              "News"
+              "Javascript"
             )
           ),
           _react2.default.createElement(
@@ -11169,7 +11204,7 @@ exports.default = function (props) {
             _react2.default.createElement(
               "a",
               { href: "video.html", className: "no-child" },
-              "Video"
+              "Fashion"
             )
           ),
           _react2.default.createElement(
@@ -11178,7 +11213,7 @@ exports.default = function (props) {
             _react2.default.createElement(
               "a",
               { href: "contact.html", className: "no-child" },
-              "Contact"
+              "News"
             )
           )
         )
@@ -11215,7 +11250,7 @@ exports.default = function (props) {
 			_react2.default.createElement(
 				"div",
 				{ className: "input-field animated fadeinright" },
-				_react2.default.createElement("input", { onKeyDown: props.onSearch.bind(undefined), placeholder: "Search...", type: "text", className: "validate" })
+				_react2.default.createElement("input", { onKeyDown: props.onSearch.bind(undefined), placeholder: "Search podcasts...", type: "text", className: "validate" })
 			)
 		)
 	);
@@ -11315,7 +11350,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 module.exports = {
 
   get: function get(endpoint, params) {
-    return new Promise(function (resolve, reject) {
+    return new _bluebird2.default(function (resolve, reject) {
 
       _superagent2.default.get(endpoint).query(params).set('Accept', 'application/json').end(function (err, response) {
         if (err) {

@@ -3,7 +3,7 @@ import React, {Component} from 'react'
 export default (props) => {
 
   return(
-    <footer className="page-footer grey">
+    <footer className="page-footer grey" >
       <div className="container">
         <div className="row">
           <div className="col s12">

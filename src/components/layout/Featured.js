@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Footer, Nav} from '../presentation'
+import {Footer} from '../presentation'
 import {Podcasts, Playlist} from '../containers'
 
 class Featured extends Component{
@@ -7,7 +7,8 @@ class Featured extends Component{
   render(){
     return(
         <div id="main">
-          <div id="content" className="main animated fadein">
+          <div id="content"
+          className="main animated fadein">
 
             <Playlist />
 
@@ -18,12 +19,11 @@ class Featured extends Component{
 
             <div className="clr"></div>
             </div>
+            <div style={{height:'40vh'}}></div>
 
             <Footer />
 
           </div>
-
-            <Nav />
 
       </div>
 

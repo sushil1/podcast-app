@@ -1,9 +1,10 @@
 import React, { Component} from 'react'
-import { Search } from '../presentation'
+import { Search, Nav } from '../presentation'
 import { APIClient } from '../../utils'
 import { connect } from 'react-redux'
 import actions from '../../actions'
 import APlayer from 'aplayer'
+
 
 
 class Playlist extends Component {
@@ -14,10 +15,6 @@ class Playlist extends Component {
 			player: null
 		}
 	}
-
-    componentDidMount(){
-
-    }
 
     initializePlayer(list){
     	let sublist = []
@@ -90,6 +87,19 @@ class Playlist extends Component {
 		})
 	}
 
+	getPodcasts(query){
+		const endpoint = '/search/'+query
+
+		APIClient
+		.get(endpoint, null)
+		.then(response => {
+			this.props.podcastsReceived(response.results)
+		})
+		.catch(err => {
+			console.log('ERROR: '+JSON.stringify(response))
+		})
+	}
+
 	componentDidUpdate(){
 		//console.log('componentDidUpdate: '+JSON.stringify(this.props.podcasts.selected))
 		if (this.props.podcasts.selected == null)
@@ -142,13 +152,31 @@ class Playlist extends Component {
 	render(){
 		return (
 			<div>
-				<div style={{paddingTop:64}} className="hero-header bg-shop animated fadeindown">
+				<div style={{paddingTop:64}} style={{backgroundColor:'teal',
+					backgroundSize: 'cover',
+					boxShadow: ' 0px 0px 1px 0px rgba(0, 0, 0,.7)',
+
+				}} className="animated fadeindown hero-header">
+					{
+						this.state.player === null && (
+							<h3 style={{
+								fontSize:'20px',
+								textAlign:'center',
+								paddingTop:'50px',
+								fontWeight:'bold'
+							}}>Search your favourite podcasts.<br />
+							Loading from itunes</h3>
+						)
+					}
 					<div className="p-20 animated fadeinup delay-1">
-					    <div style={{background:'#fff'}} id="player1" className="aplayer"></div>
+					    <div style={{background:'#fff', margin:'5%'}} id="player1" className="aplayer"></div>
 					</div>
 				</div>
 
 				<Search onSearch={this.searchPodcasts.bind(this)} />
+
+				
+
 			</div>
 		)
 	}
