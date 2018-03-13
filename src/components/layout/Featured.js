@@ -1,35 +1,26 @@
-import React, {Component} from 'react'
-import {Footer} from '../presentation'
-import {Podcasts, Playlist} from '../containers'
+import React, { Component } from 'react';
+import { Footer } from '../presentation';
+import { Podcasts, Playlist } from '../containers';
 
-class Featured extends Component{
+class Featured extends Component {
+  render() {
+    return (
+      <div id="main">
+        <div id="content" className="main animated fadein">
+          <Playlist />
 
-  render(){
-    return(
-        <div id="main">
-          <div id="content"
-          className="main animated fadein">
+          <div className="animated fadeinup delay-1">
+            <Podcasts />
 
-            <Playlist />
-
-
-            <div className="animated fadeinup delay-1">
-
-                <Podcasts />
-
-            <div className="clr"></div>
-            </div>
-            <div style={{height:'40vh'}}></div>
-
-            <Footer />
-
+            <div className="clr" />
           </div>
+          <div style={{ height: '40vh' }} />
 
+          <Footer />
+        </div>
       </div>
-
-    )
+    );
   }
 }
 
-
-export default Featured
+export default Featured;
