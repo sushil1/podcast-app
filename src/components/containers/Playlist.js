@@ -75,7 +75,7 @@ class Playlist extends Component {
     if (this.state.player !== null) {
       this.state.player.pause();
       this.setState({
-        // player: null,
+        //player: null,
         isLoading: true
       });
     }
@@ -120,7 +120,6 @@ class Playlist extends Component {
             this.state.isLoading && (
               <h3
                 style={{
-                  fontSize: '20px',
                   textAlign: 'center',
                   color: 'white'
                 }}
