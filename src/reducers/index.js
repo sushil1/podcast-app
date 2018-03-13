@@ -1,6 +1,3 @@
-import podcastReducer from './podcastReducer'
+import podcastReducer from './podcastReducer';
 
-export {
-
-  podcastReducer
-}
+export { podcastReducer };

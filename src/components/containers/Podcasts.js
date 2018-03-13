@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import actions from '../../actions';
+import { podcastSelected } from '../../actions';
 import { TextUtils } from '../../utils';
 
 class Podcasts extends Component {
   selectPodcast(podcast, event) {
-    //console.log('selectPodcast: '+JSON.stringify(podcast))
     this.props.podcastSelected(podcast);
   }
 
@@ -46,10 +45,4 @@ const stateToProps = state => {
   };
 };
 
-const dispatchToProps = dispatch => {
-  return {
-    podcastSelected: podcast => dispatch(actions.podcastSelected(podcast))
-  };
-};
-
-export default connect(stateToProps, dispatchToProps)(Podcasts);
+export default connect(stateToProps, { podcastSelected })(Podcasts);

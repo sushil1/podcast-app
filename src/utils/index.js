@@ -1,9 +1,4 @@
-import APIClient from './APIClient'
-import TextUtils from './TextUtils'
+import api from './api';
+import TextUtils from './TextUtils';
 
-export {
-
-  APIClient,
-  TextUtils
-
-}
+export { api, TextUtils };

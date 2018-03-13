@@ -1,34 +1,34 @@
-var express = require('express')
-var router = express.Router()
-var superagent = require('superagent')
+const express = require('express');
+const router = express.Router();
+const superagent = require('superagent');
 
+router.get('/:searchQuery', (req, res, next) => {
+  const searchQuery = req.params.searchQuery;
+  const URL = 'http://itunes.apple.com/search';
 
-router.get('/:term', function(req, res, next){
-
-    var term = req.params.term
-    //use supergent to search api for itunes
-    var url = 'http://itunes.apple.com/search'
-
-    superagent
-      .get(url)
-      .query({media:'podcast', term:term})
-      .set('Accept', 'application/json')
-      .end(function(err, response){
-        if(err){
-          res.json({
-            confirmation:'fail',
-            message: err +''
-          })
-          return
-        }
-        var data = JSON.parse(response.text)
+  superagent
+    .get(URL)
+    .query({ media: 'podcast', term: searchQuery })
+    .set('Accept', 'application/json')
+    .end((err, response) => {
+      if (err) {
         res.json({
-          confirmation:'success',
-          results: data.results
-        })
+          confirmation: 'fail',
+          message: err
+        });
+      }
+      if (response == null) {
+        res.json({
+          confirmation: 'fail',
+          message: 'Podcasts not found'
+        });
+      }
+      const data = JSON.parse(response.text);
+      res.json({
+        confirmation: 'success',
+        results: data.results
+      });
+    });
+});
 
-      })
-
-})
-
-module.exports = router
+module.exports = router;

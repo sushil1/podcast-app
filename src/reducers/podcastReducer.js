@@ -1,38 +1,44 @@
-import constants from '../constants'
+import constants from '../constants';
 
 var initialState = {
   all: null,
   selected: null,
-  trackList: null
+  trackList: null,
+  error: null
+};
 
-}
-
-export default (state = initialState, action)=>{
-  let updated = Object.assign({}, state)
-  switch(action.type){
-
+export default (state = initialState, action) => {
+  let updated = Object.assign({}, state);
+  switch (action.type) {
     case constants.PODCASTS_RECEIVED:
-    //console.log('podcast recieved: '+JSON.stringify(action.podcasts))
-    updated['all'] = action.podcasts
-    return updated
+      updated['all'] = action.podcasts;
+      updated['error'] = null;
+      return updated;
+
+    case constants.PODCASTS_RECEIVED_ERROR:
+      updated['error'] = action.message;
+      return updated;
 
     case constants.PODCAST_SELECTED:
-    if(updated.selected != null){
-      if(updated.selected.collectionId == action.podcast.collectionId)
-        return state
+      if (updated.selected != null) {
+        if (updated.selected.collectionId === action.podcast.collectionId)
+          return state;
       }
-      updated['trackList'] = null
-      updated['selected'] = action.podcast
-      return updated
+      updated['trackList'] = null;
+      updated['selected'] = action.podcast;
+      return updated;
 
     case constants.TRACKLIST_READY:
-    console.log('TRACKLIST_READY')
-     updated['trackList'] = action.list
-      return updated
+      updated['trackList'] = action.list;
+      updated['error'] = null;
+      return updated;
 
+    case constants.TRACKLIST_ERROR:
+      updated['trackList'] = null;
+      updated['error'] = action.message;
+      return updated;
 
     default:
-      return state
+      return state;
   }
-
-}
+};

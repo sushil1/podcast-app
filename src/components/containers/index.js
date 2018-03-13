@@ -1,10 +1,4 @@
-import Podcasts from './Podcasts'
-import Playlist from './Playlist'
+import Podcasts from './Podcasts';
+import Playlist from './Playlist';
 
-export {
-
-  Podcasts,
-  Playlist
-
-
-}
+export { Podcasts, Playlist };
